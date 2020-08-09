@@ -81,7 +81,11 @@ export var FeatureGroup = LayerGroup.extend({
 
 		for (var id in this._layers) {
 			var layer = this._layers[id];
-			bounds.extend(layer.getBounds ? layer.getBounds() : layer.getLatLng());
+			if (layer instanceof LayerGroup){
+				bounds.extend(FeatureGroup.prototype.getBounds.call(layer));
+			} else {
+				bounds.extend(layer.getBounds ? layer.getBounds() : layer.getLatLng());
+			}
 		}
 		return bounds;
 	}
